@@ -2,18 +2,17 @@ import express from 'express';
 import { Match } from './models/match';
 import { Player } from './models/player';
 import { v4 as uuidv4 } from 'uuid';
-import { Socket } from 'socket.io';
+import { Socket, Server } from 'socket.io';
+import { createServer } from 'http';
 
 const app = express();
-const socketIo = require('socket.io')
-const http = require('http')
 const PORT = process.env.PORT || 3000
-const server = http.createServer(app)
-const io = socketIo(server, {
+const server = createServer(app)
+const io = new Server(server, {
     cors: {
         origin: '*'
-    }
-})
+    },
+});
 
 var matchs: Array<Match> = new Array<Match>();
 
@@ -48,7 +47,6 @@ io.on('connection', (socket: Socket) => {
 
 })
 
-server.listen(PORT, (err: any) => {
-    if (err) console.log(err)
+server.listen(PORT, () => {
     console.log('Server running on Port ', PORT)
 })
