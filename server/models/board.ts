@@ -2,9 +2,9 @@ import { Block } from "./block";
 
 export class Board {
     private _board: Array<Array<Block>>;
-    private _opponentBoard: Array<Array<boolean>>;
+    private _opponentBoard: Array<Array<Block>>;
 
-    constructor(board: Array<Array<Block>>, opponentBoard: Array<Array<boolean>>) {
+    constructor(board: Array<Array<Block>>, opponentBoard: Array<Array<Block>>) {
         this._board = board
         this._opponentBoard = opponentBoard;
     }
@@ -17,15 +17,19 @@ export class Board {
         this._board = value;
     }
 
-    public get opponentBoard(): Array<Array<boolean>> {
+    public get opponentBoard(): Array<Array<Block>> {
         return this._opponentBoard;
     }
 
-    public set opponentBoard(value: Array<Array<boolean>>) {
+    public set opponentBoard(value: Array<Array<Block>>) {
         this._opponentBoard = value;
     }
 
-    public guess(x: number, y: number, value: boolean): void {
-        this._opponentBoard[x][y] = value;
+    public guess(x: number, y: number): boolean {
+        this._opponentBoard[x][y].hasGuessed = true;
+        if (this._opponentBoard[x][y].isSet && this._opponentBoard[x][y].name) {
+            this._opponentBoard[x][y].isHit = true;
+        }
+        return this._opponentBoard[x][y].isHit;
     }
 }

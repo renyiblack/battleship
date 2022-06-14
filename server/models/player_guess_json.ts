@@ -1,8 +1,10 @@
 export class PlayerGuessJson {
+    id: string;
     x: number;
     y: number;
 
-    constructor(x: number, y: number) {
+    constructor(id: string, x: number, y: number) {
+        this.id = id;
         this.x = x;
         this.y = y;
     }

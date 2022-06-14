@@ -11,7 +11,31 @@ export class Player {
     constructor(id: string, socket: Socket) {
         this.id = id;
         this.socket = socket;
-        this.board = new Board([], []);
+        this.board = new Board(
+            [
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+            ],
+            [
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
+            ]);
     }
 
     public placeShip(ship: Ship, x: number, y: number): boolean {
@@ -40,6 +64,9 @@ export class Player {
         }
 
         this.board.board = board;
+
+        console.log(this.board.board);
+
         return true;
     }
 

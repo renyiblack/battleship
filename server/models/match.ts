@@ -1,4 +1,3 @@
-import { Board } from "./board";
 import { Player } from "./player";
 import { Ship } from "./ship";
 
@@ -34,10 +33,12 @@ export class Match {
     }
 
     private isP1(id: string): boolean {
+        console.log(this.p1.id + ' ' + id);
         return this.p1.id === id;
     }
 
     private isP2(id: string): boolean {
+        console.log(this.p2?.id + ' ' + id);
         return this.p2?.id === id;
     }
 
@@ -51,15 +52,11 @@ export class Match {
             throw Error('Invalid player!');
         }
     }
-    public guessShip(id: string, x: number, y: number): boolean {
+    public guessShip(id: string, x: number, y: number): string {
         if (this.isP1(id)) {
-            let isSet: boolean = this.p2!.board.board[x][y].isSet;
-            this._p1.board.guess(x, y, isSet);
-            return isSet;
+            return this._p1.board.guess(x, y) ? "player 1 hit" : "player 1 missed";
         } else if (this.isP2(id)) {
-            let isSet: boolean = this.p1.board.board[x][y].isSet;
-            this._p2!.board.guess(x, y, isSet);
-            return isSet;
+            return this._p2!.board.guess(x, y) ? "player 2 hit" : "player 2 missed";
         }
         else {
             throw Error('Invalid player!');

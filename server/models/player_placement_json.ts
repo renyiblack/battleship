@@ -1,12 +1,12 @@
-import { Ship } from "./ship";
-
 export class PlayerPlacementJson {
-    ship: Ship;
+    id: string;
+    shipName: string;
     x: number;
     y: number;
 
-    constructor(ship: Ship, x: number, y: number) {
-        this.ship = ship;
+    constructor(id: string, shipName: string, x: number, y: number) {
+        this.id = id;
+        this.shipName = shipName;
         this.x = x;
         this.y = y;
     }
