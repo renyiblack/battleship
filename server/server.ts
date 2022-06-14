@@ -4,6 +4,9 @@ import { Player } from './models/player';
 import { v4 as uuidv4 } from 'uuid';
 import { Socket, Server } from 'socket.io';
 import { createServer } from 'http';
+import { PlayerPlacementJson as PlayerPlacementJson } from './models/player_placement_json';
+import { Ship } from './models/ship';
+import { PlayerGuessJson } from './models/player_guess_json';
 
 const app = express();
 const PORT = process.env.PORT || 3000
@@ -22,9 +25,10 @@ io.on('connection', (socket: Socket) => {
         let player: Player = new Player(uuidv4(), socket);
         let matchNumber = matchs.length;
         let message = 'Waiting for player 2!';
+        let matchId = uuidv4();
 
         if (matchNumber == 0) {
-            matchs.push(new Match(player, undefined));
+            matchs.push(new Match(matchId, player, undefined));
         } else {
             let match = matchs.at(matchs.length - 1)!;
             if (!match.hasP2) {
@@ -32,20 +36,33 @@ io.on('connection', (socket: Socket) => {
                 message = 'Starting Match!';
             }
             else {
-                matchs.push(new Match(player, undefined));
+                matchs.push(new Match(matchId, player, undefined));
             }
 
             matchNumber = matchs.length;
         }
 
-        socket.join('match' + matchNumber);
-        io.to('match' + matchNumber).emit('message', message)
+
+        let match = matchs.at(matchs.length - 1)!;
+
+        socket.on("ship:place", (json: string) => {
+            let playerPlacementJson: PlayerPlacementJson = JSON.parse(json);
+            match.placeShip(socket.id, playerPlacementJson.ship, playerPlacementJson.x, playerPlacementJson.y);
+        });
+        socket.on("ship:guess", (json: string) => {
+            let playerGuessJson: PlayerGuessJson = JSON.parse(json);
+            match.guessShip(socket.id, playerGuessJson.x, playerGuessJson.y);
+        });
+
+        socket.join('match' + matchId);
+        io.to('match' + matchId).emit('message', message + 'match id = ' + matchId);
         socket.on('disconnect', (reason: any) => {
-            console.log(reason)
+            console.log(reason);
         })
     }
 
 })
+
 
 server.listen(PORT, () => {
     console.log('Server running on Port ', PORT)

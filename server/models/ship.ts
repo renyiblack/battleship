@@ -1,10 +1,11 @@
+import { Block } from "./block";
 
 export class Ship {
     name: String;
-    blocks: Array<Array<boolean>>;
+    blocks: Array<Array<Block>>;
 
-    constructor(name: String, size: Array<Array<boolean>>){
+    constructor(name: String, blocks: Array<Array<Block>>) {
         this.name = name;
-        this.blocks = size;
+        this.blocks = blocks;
     }
 }

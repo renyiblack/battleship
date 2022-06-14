@@ -1,11 +1,12 @@
+import { Block } from "./block";
 import { Ship } from "./ship";
 
 export class BattleShip extends Ship {
     constructor() {
         super('battleship', [
-            [false, false, false, false, false, false],
-            [false, true, true, true, true, false],
-            [false, false, false, false, false, false]
+            [new Block(false, false), new Block(false, false), new Block(false, false), new Block(false, false), new Block(false, false), new Block(false, false)],
+            [new Block(false, false), new Block(false, true), new Block(false, true), new Block(false, true), new Block(false, true), new Block(false, false)],
+            [new Block(false, false), new Block(false, false), new Block(false, false), new Block(false, false), new Block(false, false), new Block(false, false)]
         ]);
     }
 }
