@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { Socket, Server } from 'socket.io';
 import { createServer } from 'http';
 import { PlayerPlacementJson as PlayerPlacementJson } from './models/player_placement_json';
-import { Ship } from './models/ship';
 import { PlayerGuessJson } from './models/player_guess_json';
 import { ShipFactory } from './models/shipfactory';
 
@@ -73,7 +72,8 @@ io.on('connection', (socket: Socket) => {
         socket.on("guess", (json: string) => {
             let playerGuessJson: PlayerGuessJson = JSON.parse(json);
             let message: string = (match.guessShip(playerGuessJson.id, playerGuessJson.x, playerGuessJson.y));
-            socket.emit(message);
+            console.log(message);
+            socket.emit('guess', message);
         });
     }
 

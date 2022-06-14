@@ -33,12 +33,10 @@ export class Match {
     }
 
     private isP1(id: string): boolean {
-        console.log(this.p1.id + ' ' + id);
         return this.p1.id === id;
     }
 
     private isP2(id: string): boolean {
-        console.log(this.p2?.id + ' ' + id);
         return this.p2?.id === id;
     }
 
@@ -53,6 +51,10 @@ export class Match {
         }
     }
     public guessShip(id: string, x: number, y: number): string {
+
+        this._p1.board.opponentBoard = this._p2!.board.board
+        this._p2!.board.opponentBoard = this._p1.board.board
+
         if (this.isP1(id)) {
             return this._p1.board.guess(x, y) ? "player 1 hit" : "player 1 missed";
         } else if (this.isP2(id)) {
