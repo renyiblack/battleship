@@ -7,6 +7,7 @@ import { createServer } from 'http';
 import { PlayerPlacementJson as PlayerPlacementJson } from './models/player_placement_json';
 import { PlayerGuessJson } from './models/player_guess_json';
 import { ShipFactory } from './models/shipfactory';
+import { Point } from './models/point';
 
 const app = express();
 const PORT = process.env.PORT || 3000
@@ -50,7 +51,7 @@ io.on('connection', (socket: Socket) => {
 
 
         socket.join('match' + matchId);
-        io.to('match' + matchId).emit('message', message + '\nMatch id = ' + matchId);
+        io.to('match' + matchId).emit('message', message + ' Match id = ' + matchId);
 
         socket.on('disconnect', (reason: any) => {
             console.log(reason);
@@ -60,20 +61,17 @@ io.on('connection', (socket: Socket) => {
             console.log(json);
 
             let playerPlacementJson: PlayerPlacementJson = JSON.parse(json);
+            let x = playerPlacementJson.x;
+            let y = playerPlacementJson.y;
 
-            if (match.placeShip(playerPlacementJson.id, ShipFactory.buildShipFromName(playerPlacementJson.shipName), playerPlacementJson.x, playerPlacementJson.y)) {
-                socket.emit('success');
-            }
-            else {
-                throw Error('Invalid placement');
-            }
+            socket.emit("place", match.placeShip(playerPlacementJson.id, ShipFactory.buildShipFromName(playerPlacementJson.shipName, new Point(x, y))))
         });
 
         socket.on("guess", (json: string) => {
             let playerGuessJson: PlayerGuessJson = JSON.parse(json);
             let message: string = (match.guessShip(playerGuessJson.id, playerGuessJson.x, playerGuessJson.y));
             console.log(message);
-            socket.emit('guess', message);
+            socket.emit("guess", message);
         });
     }
 

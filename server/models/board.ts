@@ -1,35 +1,38 @@
-import { Block } from "./block";
+import { Block, BlockState } from "./block";
 
 export class Board {
-    private _board: Array<Array<Block>>;
-    private _opponentBoard: Array<Array<Block>>;
+    board: Array<Array<Block>>;
+    opponentBoard: Array<Array<Block>>;
 
     constructor(board: Array<Array<Block>>, opponentBoard: Array<Array<Block>>) {
-        this._board = board
-        this._opponentBoard = opponentBoard;
+        this.board = board
+        this.opponentBoard = opponentBoard;
     }
 
-    public get board(): Array<Array<Block>> {
-        return this._board;
-    }
+    public static fromXY(x: number, y: number): Board {
+        let board: Array<Array<Block>> = new Array<Array<Block>>();
+        let opponentBoard: Array<Array<Block>> = new Array<Array<Block>>();
 
-    public set board(value: Array<Array<Block>>) {
-        this._board = value;
-    }
+        for (let i = 0; i < x; i++) {
+            board.push(new Array<Block>);
+            opponentBoard.push(new Array<Block>);
+            for (let j = 0; j < x; j++) {
+                board[i].push(new Block());
+                opponentBoard[i].push(new Block());
+            }
+        }
 
-    public get opponentBoard(): Array<Array<Block>> {
-        return this._opponentBoard;
-    }
 
-    public set opponentBoard(value: Array<Array<Block>>) {
-        this._opponentBoard = value;
+        return new Board(board, opponentBoard);
     }
 
     public guess(x: number, y: number): boolean {
-        this._opponentBoard[x][y].hasGuessed = true;
-        if (this._opponentBoard[x][y].isSet && this._opponentBoard[x][y].name) {
-            this._opponentBoard[x][y].isHit = true;
+
+        let state = BlockState.guessed
+        if (this.opponentBoard[x][y].name) {
+            state = BlockState.hit;
         }
-        return this._opponentBoard[x][y].isHit;
+        this.opponentBoard[x][y].state = state
+        return state == BlockState.guessed ? false : true;
     }
 }

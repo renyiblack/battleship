@@ -1,13 +1,18 @@
+import { Point } from "./point";
+
+export enum BlockState { empty, occupied, guessed, hit }
+
 export class Block {
     name: string;
-    isHit: boolean;
-    hasGuessed: boolean;
-    isSet: boolean;
+    state: BlockState;
+    nextBlock?: Point;
+    previousBlock?: Point;
 
-    constructor(isHit: boolean, hasGuessed: boolean, isSet: boolean, name: string ='') {
+    constructor(state: BlockState = BlockState.empty, name: string = '', nextBlock?: Point,
+        previousBlock?: Point) {
         this.name = name;
-        this.isHit = isHit;
-        this.hasGuessed = hasGuessed;
-        this.isSet = isSet;
+        this.state = state;
+        this.nextBlock = nextBlock;
+        this.previousBlock = previousBlock;
     }
 }

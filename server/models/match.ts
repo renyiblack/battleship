@@ -40,11 +40,11 @@ export class Match {
         return this.p2?.id === id;
     }
 
-    public placeShip(id: string, ship: Ship, x: number, y: number): boolean {
+    public placeShip(id: string, ship: Ship): boolean {
         if (this.isP1(id)) {
-            return this._p1.placeShip(ship, x, y);
+            return this._p1.placeShip(ship);
         } else if (this.isP2(id)) {
-            return this._p2!.placeShip(ship, x, y);
+            return this._p2!.placeShip(ship);
         }
         else {
             throw Error('Invalid player!');
@@ -56,6 +56,7 @@ export class Match {
         this._p2!.board.opponentBoard = this._p1.board.board
 
         if (this.isP1(id)) {
+            this._p1.board.guess(x, y) ? "player 1 hit" : "player 1 missed";
             return this._p1.board.guess(x, y) ? "player 1 hit" : "player 1 missed";
         } else if (this.isP2(id)) {
             return this._p2!.board.guess(x, y) ? "player 2 hit" : "player 2 missed";

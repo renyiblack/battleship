@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { Block } from "./block";
+import { BlockState } from "./block";
 import { Board } from "./board";
 import { Ship } from "./ship";
 
@@ -11,63 +11,47 @@ export class Player {
     constructor(id: string, socket: Socket) {
         this.id = id;
         this.socket = socket;
-        this.board = new Board(
-            [
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-            ],
-            [
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-                [new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false), new Block(false, false, false)],
-            ]);
+        this.board = Board.fromXY(10, 10);
     }
 
-    public placeShip(ship: Ship, x: number, y: number): boolean {
-        let board = this.board.board;
-        const endingX = ship.blocks.length;
-        const endingy = ship.blocks[0].length;
-        let isFirstMatch = true;
+    public placeShip(ship: Ship): boolean {
+        /// Deep copy
+        let board = JSON.parse(JSON.stringify(this.board.board));
+
+
+        console.log(ship.topLeft.x + " " + ship.topLeft.y);
+        console.log(ship.bottomRight.x + " " + ship.bottomRight.y);
+
         let shipX = 0;
         let shipY = 0;
-        for (let bx = 0; bx < board.length; bx++) {
-            for (let by = 0; by < board[0].length; by++) {
-                if ((bx >= x && bx <= endingX) && (by >= y && by <= endingy)) {
-                    if (board[bx][by].isSet) {
+
+        try {
+            for (let x = ship.topLeft.x; x <= ship.bottomRight.x; x++) {
+                for (let y = ship.topLeft.y; y <= ship.bottomRight.y; y++) {
+                    if (board[x][y].state == BlockState.occupied) {
+                        /// block already occupied, invalid move
+                        console.log("already occupied");
                         return false;
                     }
                     else {
-                        if (isFirstMatch) {
-                            shipX = bx;
-                            shipY = by;
-                            isFirstMatch = false;
-                        }
-                        board[bx][by] = ship.blocks[bx - shipX][by - shipY];
+                        board[x][y] = ship.blocks[shipX][shipY];
                     }
+                    shipY++;
                 }
+                shipX++;
+                shipY = 0;
             }
+
+
+            this.board.board = board;
+
+            console.log(this.board.board);
+
+            return true;
+        } catch (error) {
+            /// ship can't fit
+            console.log("ship can't fit");
+            return false;
         }
-
-        this.board.board = board;
-
-        console.log(this.board.board);
-
-        return true;
     }
-
 }

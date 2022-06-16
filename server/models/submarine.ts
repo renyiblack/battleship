@@ -1,12 +1,16 @@
-import { Block } from "./block";
+import { Block, BlockState } from "./block";
+import { Point } from "./point";
 import { Ship } from "./ship";
 
 export class Submarine extends Ship {
-    constructor() {
-        super('submarine', [
-            [new Block(false, false, true), new Block(false, false, true), new Block(false, false, true), new Block(false, false, true), new Block(false, false, true), new Block(false, false, true)],
-            [new Block(false, false, true), new Block(false, false, true, 'submarine'), new Block(false, false, true, 'submarine'), new Block(false, false, true, 'submarine'), new Block(false, false, true, 'submarine'), new Block(false, false, true)],
-            [new Block(false, false, true), new Block(false, false, true), new Block(false, false, true), new Block(false, false, true), new Block(false, false, true), new Block(false, false, true)]
-        ]);
+    constructor(initialPos: Point) {
+        super('submarine', initialPos, [
+            [new Block(BlockState.occupied), new Block(BlockState.occupied), new Block(BlockState.occupied)],
+            [new Block(BlockState.occupied), new Block(BlockState.occupied, 'submarine', initialPos), new Block(BlockState.occupied)],
+            [new Block(BlockState.occupied), new Block(BlockState.occupied, 'submarine', initialPos.sumX(1), initialPos), new Block(BlockState.occupied)],
+            [new Block(BlockState.occupied), new Block(BlockState.occupied, 'submarine', initialPos.sumX(2), initialPos.sumX(1)), new Block(BlockState.occupied)],
+            [new Block(BlockState.occupied), new Block(BlockState.occupied, 'submarine', undefined, initialPos.sumX(2)), new Block(BlockState.occupied)],
+            [new Block(BlockState.occupied), new Block(BlockState.occupied), new Block(BlockState.occupied)]
+        ], initialPos.subX(1).subY(1), initialPos.sumX(4).sumY(1));
     }
 }
