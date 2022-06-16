@@ -1,16 +1,17 @@
 import './App.css'
-import { React, useState, useEffect } from 'react'
-import './models/shipfactory'
-
-
+import { React, useState, useEffect, useRef } from 'react'
 
 const App = (props) => {
   const [message, setMessage] = useState('fetching')
-  const [place, setPlace] = useState('')
+  const [x, setX] = useState(0)
+  const [y, setY] = useState(0)
   const [guess, setGuess] = useState('')
   const [id, setID] = useState('')
   const [shipName, setShip] = useState('')
   const socket = props.socket
+
+  let playerGrid = generateGrid(socket, id, shipName, setX, setY);
+  let oponnentGrid = guessGrid(socket, id);
 
   useEffect(() => {
     socket.on('connect', () => console.log(socket.id))
@@ -19,22 +20,64 @@ const App = (props) => {
     })
     socket.on('id', (id) => { setID(id) })
     socket.on('message', (data) => setMessage(data))
-    socket.on('place', (data) => setPlace(data))
     socket.on('guess', (data) => setGuess(data))
     socket.on('disconnect', () => setMessage('server disconnected'))
   }, [])
 
-  let playerGrid = generateGrid(socket, id, shipName);
-  let oponnentGrid = guessGrid(socket, id);
+  socket.on('place', (allowed) => {
+    if (allowed) {
+      console.log('allowed')
+      console.log(x * 10 + y)
+      if (x && y) {
+        if (shipName === 'battleship') {
+          document.getElementById(x * 10 + y).style.backgroundColor = "red"
+          document.getElementById(x * 10 + (y + 1)).style.backgroundColor = "red"
+          document.getElementById(x * 10 + (y + 2)).style.backgroundColor = "red"
+          document.getElementById(x * 10 + (y + 3)).style.backgroundColor = "red"
+        }
+        else if (shipName === 'cargoship') {
+          document.getElementById(x * 10 + y).style.backgroundColor = "yellow"
+          document.getElementById(x * 10 + (y + 1)).style.backgroundColor = "yellow"
+          document.getElementById(x * 10 + (x + 2)).style.backgroundColor = "yellow"
+          document.getElementById(x * 10 + (x + 3)).style.backgroundColor = "yellow"
+          document.getElementById(x * 10 + (x + 4)).style.backgroundColor = "yellow"
+        }
+        else if (shipName === 'cruiser') {
+          document.getElementById(x * 10 + y).style.backgroundColor = "orange"
+          document.getElementById(x * 10 + (y + 1)).style.backgroundColor = "orange"
+          document.getElementById(x * 10 + (y + 2)).style.backgroundColor = "orange"
+          document.getElementById(x * 10 + (y + 3)).style.backgroundColor = "orange"
+          document.getElementById(x * 10 + (y + 4)).style.backgroundColor = "orange"
+          document.getElementById(x * 10 + (y + 5)).style.backgroundColor = "orange"
+        }
+        else if (shipName === 'hydroplane') {
+          document.getElementById(x * 10 + y).style.backgroundColor = "blue"
+          document.getElementById((x - 1) * 10 + (y + 1)).style.backgroundColor = "blue"
+          document.getElementById(x * 10 + (y + 2)).style.backgroundColor = "blue"
+        }
+        else if (shipName === 'submarine') {
+          document.getElementById(x * 10 + y).style.backgroundColor = "green"
+          document.getElementById(x * 10 + (y + 1)).style.backgroundColor = "green"
+          document.getElementById(x * 10 + (y + 2)).style.backgroundColor = "green"
+          document.getElementById(x * 10 + (y + 3)).style.backgroundColor = "green"
+        }
+      }
+      setX('')
+      setY('')
+    } else {
+
+      console.log('not allowed')
+    }
+  })
 
   return (
     <div className="App">
       <p>Player id: {id}</p>
       <p>{message}</p>
-      <p>{place}</p>
       <p>{guess}</p>
       <p>Player board</p>
-      {playerGrid}
+      <div className='grid'>
+        {playerGrid}</div>
       <br />
       <button onClick={() => setShip('battleship')}>battleship</button>
       <br />
@@ -50,18 +93,22 @@ const App = (props) => {
       <br />
       <br />
       <p>Player 2 board</p>
-      {oponnentGrid}
-    </div>
+
+      <div className='grid'>{oponnentGrid}</div>
+    </div >
   )
 }
 
-const generateGrid = (socket, id, shipName) => {
+const generateGrid = (socket, id, shipName, setX, setY) => {
   let items = []
   for (let x = 0; x < 10; x++) {
     for (let y = 0; y < 10; y++) {
-      items.push(<button className="block" onClick={() => placeShip(socket, id, shipName, x, y)} />)
+      items.push(<button id={x * 10 + y} key={x * 10 + y} className="grid-container" onClick={() => {
+        setX(x)
+        setY(y)
+        placeShip(socket, id, shipName, x, y)
+      }} />)
     }
-    items.push(<br />)
   }
 
   return items
@@ -71,9 +118,8 @@ const guessGrid = (socket, id) => {
   let items = []
   for (let x = 0; x < 10; x++) {
     for (let y = 0; y < 10; y++) {
-      items.push(<button className="block" onClick={() => guessShip(socket, id, x, y)} />)
+      items.push(<button id={x * 10 + y} key={x * 10 + y} className="grid-container" onClick={() => guessShip(socket, id, x, y)} />)
     }
-    items.push(<br />)
   }
 
   return items

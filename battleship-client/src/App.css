@@ -32,13 +32,22 @@
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
 }
 
-.block{
+.grid {
+  display: grid;
+  grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+  grid-template-rows:  50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+}
+
+.grid-container {
+  display: inline-grid;
+}
+
+.block {
   height: 25px;
   width: 25px;
 }
