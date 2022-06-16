@@ -42,7 +42,6 @@ export class Player {
                 shipY = 0;
             }
 
-
             this.board.board = board;
 
             console.log(this.board.board);

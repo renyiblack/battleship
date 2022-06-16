@@ -71,7 +71,7 @@ io.on('connection', (socket: Socket) => {
             let playerGuessJson: PlayerGuessJson = JSON.parse(json);
             let message: string = (match.guessShip(playerGuessJson.id, playerGuessJson.x, playerGuessJson.y));
             console.log(message);
-            socket.emit("guess", message);
+            io.to('match' + matchId).emit("guess", message);
         });
     }
 
