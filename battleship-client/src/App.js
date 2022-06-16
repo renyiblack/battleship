@@ -62,12 +62,11 @@ const App = (props) => {
           document.getElementById(x * 10 + (y + 3)).style.backgroundColor = "green"
         }
       }
-      setX('')
-      setY('')
     } else {
-
       console.log('not allowed')
     }
+
+    socket.off('place')
   })
 
   return (
